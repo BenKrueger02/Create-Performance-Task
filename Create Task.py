@@ -8,6 +8,12 @@ title_screen.pack()
 global x
 x = 0
 
+global y
+y = 0
+
+global next_button
+next_button = True
+
 def questions():
     global word_count
     global flashcard_list_term
@@ -27,14 +33,32 @@ def questions():
 
 def next_command():
     global x
+    global next_button
+    next_button = True
     x=x+1
     flash_sequence()
 
+def flip_command():
+    global y
+    global next_button
+    next_button = False
+    y = y+1
+    flash_sequence()
+
 def flash_sequence():
-    Word = Label(flashscreen, text=flashcard_list_term[x], font=('Bodoni', 80, 'bold'), fg='black', bg='white')
-    Word.pack()
-    Word.place(x=360, y=400)
     flash_buttons()
+
+    if next_button == True:
+        Word = Label(flashscreen, text=flashcard_list_term[x], font=('Bodoni', 80, 'bold'), fg='black', bg='white')
+        Word.pack()
+        Word.place(x=360, y=400)
+        flash_buttons()
+    else:
+        Word = Label(flashscreen, text=flashcard_list_definition[x], font=('Bodoni', 80, 'bold'), fg='black', bg='white')
+        Word.pack()
+        Word.place(x=360, y=400)
+        flash_buttons()
+
 
 # def flip_flashcard():
 #     if flip_word == flashcard_list_term[0]:
@@ -50,7 +74,7 @@ def flash_buttons():
     next = Button(flashscreen, text="Next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
     next.pack()
     next.place(x=710, y=750)
-    flip = Button(flashscreen, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', )
+    flip = Button(flashscreen, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command = flip_command)
     flip.pack()
     flip.place(x=10, y=750)
 
