@@ -5,7 +5,12 @@ master = Tk()
 title_screen = Canvas(master, width=800, height=800, bg='green')
 title_screen.pack()
 
+global x
+x = 0
 
+
+global next_button
+next_button = True
 
 def questions():
     global word_count
@@ -25,23 +30,53 @@ def questions():
 
 
 def next_command():
-    global next_true
-    next_true = True
+    global x
+    global next_button
+    next_button = True
+    x=x+1
+    if x>=len(flashcard_list_term):
+        print("Sorry, you ain't got no more flashcards.")
+    else:
+        call_clear()
+        flashcards()
+        flash_sequence()
 
+def flip_command():
+    global next_button
+    if next_button == True:
+        next_button = False
+        call_clear()
+        flashcards()
+        flash_sequence()
+    else:
+        next_button = True
+        call_clear()
+        flashcards()
+        flash_sequence()
 
 def flash_sequence():
-    global flip_word
-    flip_word = flashcard_list_term[0]
-    Word = Label(flashscreen, text=flip_word, font=('Bodoni', 80, 'bold'), fg='black', bg='white')
-    Word.pack()
-    Word.place(x=360, y=400)
+    flash_buttons()
 
-def flip_flashcard():
-    if flip_word == flashcard_list_term[0]:
-        flip_word = flashcard_list_definition[0]
+    if next_button == True:
+        Word = Label(flashcard_screen, text=flashcard_list_term[x], font=('Bodoni', 80, 'bold'), fg='black', bg='white')
+        Word.pack()
+        Word.place(x=360, y=400)
+        flash_buttons()
     else:
-        flip_word = flashcard_list_term[0]
-    flash_sequence()
+        Word = Label(flashcard_screen, text=flashcard_list_definition[x], font=('Bodoni', 80, 'bold'), fg='black', bg='white')
+        Word.pack()
+        Word.place(x=360, y=400)
+        flash_buttons()
+
+
+
+
+# def flip_flashcard():
+#     if flip_word == flashcard_list_term[0]:
+#         flip_word = flashcard_list_definition[0]
+#     else:
+#         flip_word = flashcard_list_term[0]
+#     flash_sequence()
 
 next_true = False
 
@@ -50,7 +85,7 @@ def flash_buttons():
     next = Button(flashscreen, text="Next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
     next.pack()
     next.place(x=710, y=750)
-    flip = Button(flashscreen, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= flip_flashcard)
+    flip = Button(flashscreen, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command = flip_command)
     flip.pack()
     flip.place(x=10, y=750)
 
@@ -58,13 +93,14 @@ def flash_buttons():
 
 def call_flashcards():
     global flashscreen
+    global flashcard_screen
     flashscreen = Tk()
     flashcard_screen = Canvas(flashscreen, width=800, height=800, bg='white')
     flashcard_screen.pack()
     questions()
     flashcards()
     flash_sequence()
-    flash_buttons()
+
 
 def flashcards():
     Title_flash = Label(flashscreen, text='Flash Time', font=('Bodoni', 50, 'bold'), fg='blue', bg='white')
@@ -76,6 +112,8 @@ def call_planner():
     planner_screen = Canvas(master, width=800, height=800, bg='white')
     planner_screen.pack()
 
+def call_clear():
+    flashcard_screen.delete("all")
 
 Title = Label(master, text='Flash Time', font = ('Bodoni', 60, 'bold'), fg='blue', bg='green')
 Title.pack()
