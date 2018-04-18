@@ -14,19 +14,19 @@ next_button = True
 
 def questions():
     global word_count
-    global flashcard_list_term
-    global flashcard_list_definition
+    global term_list
+    global definition_list
     word_count = input('How many flashcards would you like to make?')
-    flashcard_list_term = []
-    flashcard_list_definition = []
+    term_list = []
+    definition_list = []
     for x in range(0,word_count):
         word=input('What is the word you would like?')
         definition=input('What is the definition of the word you chose?')
-        flashcard_list_term.append(word)
-        flashcard_list_definition.append(definition)
+        term_list.append(word)
+        definition_list.append(definition)
     print('Return back to the other window.')
-    print(flashcard_list_term)
-    print(flashcard_list_definition)
+    print(term_list)
+    print(definition_list)
 
 
 def next_command():
