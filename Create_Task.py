@@ -36,8 +36,9 @@ def next_command():
     x=x+1
     if x>=len(flashcard_list_term):
         print("Sorry, you ain't got no more flashcards.")
+        x=x-1
     else:
-        call_clear()
+        Word.destroy()
         flashcards()
         flash_sequence()
 
@@ -45,12 +46,12 @@ def flip_command():
     global next_button
     if next_button == True:
         next_button = False
-        call_clear()
+        Word.destroy()
         flashcards()
         flash_sequence()
     else:
         next_button = True
-        call_clear()
+        Word.destroy()
         flashcards()
         flash_sequence()
 
@@ -58,12 +59,13 @@ def flash_sequence():
     flash_buttons()
 
     if next_button == True:
-        Word = Label(flashcard_screen, text=flashcard_list_term[x], font=('Bodoni', 80, 'bold'), fg='black', bg='white')
+        global Word
+        Word = Label(flashcard_screen, text=flashcard_list_term[x], font=('Bodoni', 50, 'bold'), fg='black', bg='white')
         Word.pack()
         Word.place(x=360, y=400)
         flash_buttons()
     else:
-        Word = Label(flashcard_screen, text=flashcard_list_definition[x], font=('Bodoni', 80, 'bold'), fg='black', bg='white')
+        Word = Label(flashcard_screen, text=flashcard_list_definition[x], font=('Bodoni', 50, 'bold'), fg='black', bg='white')
         Word.pack()
         Word.place(x=360, y=400)
         flash_buttons()
@@ -112,8 +114,6 @@ def call_planner():
     planner_screen = Canvas(master, width=800, height=800, bg='white')
     planner_screen.pack()
 
-def call_clear():
-    flashcard_screen.delete("all")
 
 Title = Label(master, text='Flash Time', font = ('Bodoni', 60, 'bold'), fg='blue', bg='green')
 Title.pack()
