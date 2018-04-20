@@ -34,12 +34,12 @@ def next_command():
     global next_button
     next_button = True
     x=x+1
-    if x>=len(flashcard_list_term):
+    if x>=len(term_list):
         print("Sorry, you ain't got no more flashcards.")
         x=x-1
     else:
         Word.destroy()
-        flashcards()
+        flash_title()
         flash_sequence()
 
 def flip_command():
@@ -47,12 +47,14 @@ def flip_command():
     if next_button == True:
         next_button = False
         Word.destroy()
-        flashcards()
+
+
+        flash_title()
         flash_sequence()
     else:
         next_button = True
         Word.destroy()
-        flashcards()
+        flash_title()
         flash_sequence()
 
 def flash_sequence():
@@ -60,73 +62,81 @@ def flash_sequence():
 
     if next_button == True:
         global Word
-        Word = Label(flashcard_screen, text=flashcard_list_term[x], font=('Bodoni', 50, 'bold'), fg='black', bg='white')
+        Word = Label(flashcard_canvas, text=term_list[x], font=('Bodoni', 50, 'bold'), fg='black', bg='white')
         Word.pack()
-        Word.place(x=360, y=400)
+        Word.place(x=210, y=400)
         flash_buttons()
     else:
-        Word = Label(flashcard_screen, text=flashcard_list_definition[x], font=('Bodoni', 50, 'bold'), fg='black', bg='white')
+        Word = Label(flashcard_canvas, text=definition_list[x], font=('Bodoni', 50, 'bold'), fg='black', bg='white')
         Word.pack()
-        Word.place(x=360, y=400)
+        Word.place(x=210, y=400)
         flash_buttons()
 
 
 
 
-# def flip_flashcard():
-#     if flip_word == flashcard_list_term[0]:
-#         flip_word = flashcard_list_definition[0]
-#     else:
-#         flip_word = flashcard_list_term[0]
-#     flash_sequence()
 
 next_true = False
 
 def flash_buttons():
-    global flashscreen
-    next = Button(flashscreen, text="Next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
-    next.pack()
-    next.place(x=710, y=750)
-    flip = Button(flashscreen, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command = flip_command)
-    flip.pack()
-    flip.place(x=10, y=750)
+    global master_2
+    next_button = Button(master_2, text="next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
+    next_button.pack()
+    next_button.place(x=710, y=750)
+    flip_button = Button(master_2, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command = flip_command)
+    flip_button.pack()
+    flip_button.place(x=10, y=750)
 
 
 
 def call_flashcards():
-    global flashscreen
-    global flashcard_screen
-    flashscreen = Tk()
-    flashcard_screen = Canvas(flashscreen, width=800, height=800, bg='white')
-    flashcard_screen.pack()
+    global master_2
+    global flashcard_canvas
+    master_2 = Tk()
+    flashcard_canvas = Canvas(master_2, width=800, height=800, bg='white')
+    flashcard_canvas.pack()
     questions()
-    flashcards()
+    flash_title()
     flash_sequence()
 
 
-def flashcards():
-    Title_flash = Label(flashscreen, text='Flash Time', font=('Bodoni', 50, 'bold'), fg='blue', bg='white')
+def flash_title():
+    Title_flash = Label(master_2, text='Flash Time', font=('Bodoni', 50, 'bold'), fg='blue', bg='white')
     Title_flash.pack()
     Title_flash.place(x=275, y=100)
 
+def selection_screen():
+    global subject_list
+    subject_list = ['Math','Language Arts','Science', 'History', 'Language','Other' ]
+    global Math
+    global Math_Checkbutton
+    Math = True
+    Math_Checkbutton = Checkbutton(master_3, text = "Math Homework", variable = Math )
+    Math_Checkbutton.pack()
+    Math_Checkbutton.place()
+
+
 def call_planner():
-    master = Tk()
-    planner_screen = Canvas(master, width=800, height=800, bg='white')
-    planner_screen.pack()
+    global master_3
+    global planner_canvas
+    master_3= Tk()
+    planner_canvas = Canvas(master_3, width=800, height=800, bg='white')
+    planner_canvas.pack()
+    selection_screen()
 
 
-Title = Label(master, text='Flash Time', font = ('Bodoni', 60, 'bold'), fg='blue', bg='green')
-Title.pack()
-Title.place(x=255, y=100)
+Title_main = Label(master, text='Homework Planner', font = ('Bodoni', 60, 'bold'), fg='blue', bg='green')
+Title_main.pack()
+Title_main.place(x=255, y=100)
 
 
-flash_card = Button(master, text="Flashcards", font = ('Bodoni', 25, 'bold'), fg='black', bg='green', command=call_flashcards)
-flash_card.pack()
-flash_card.place(x=320, y=300)
+flashcard_button = Button(master, text="Flashcards", font = ('Bodoni', 25, 'bold'), fg='black', bg='green', command=call_flashcards)
+flashcard_button.pack()
+flashcard_button.place(x=320, y=300)
 
-planner = Button(master, text="Planner", font = ('Bodoni', 25, 'bold'   ), fg='black', bg='green', command = call_planner)
-planner.pack()
-planner.place(x=340, y=400)
+planner_button = Button(master, text="Planner", font = ('Bodoni', 25, 'bold'   ), fg='black', bg='green', command = call_planner)
+planner_button.pack()
+planner_button.place(x=340, y=400)
 
 
 
