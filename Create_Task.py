@@ -12,6 +12,8 @@ x = 0
 global next_button
 next_button = True
 
+
+
 def questions():
     global word_count
     global term_list
@@ -56,6 +58,12 @@ def flip_command():
         Word.destroy()
         flash_title()
         flash_sequence()
+
+def done_command():
+    for i in range(0,6):
+        slider_button.destroy()
+        subject_button.destroy()
+
 
 def flash_sequence():
     flash_buttons()
@@ -111,7 +119,7 @@ def planner_title():
     Title_planner.place(x=160, y=10)
 
 def done_button():
-    done_button = Button(master_3, text="Done", font=('Bodoni', 25, 'bold'), fg='black', bg='White')
+    done_button = Button(master_3, text="Done", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command = done_command)
     done_button.pack()
     done_button.place(x=362.5, y=750)
 
@@ -132,8 +140,6 @@ def slider_creator_time():
         slider_button = Scale(master_3,from_=0, to=120, length = 360, tickinterval = 10, font=('Bodoni', 10, 'bold'), orient = HORIZONTAL)
         slider_button.pack()
         slider_button.place(x=425, y=height)
-
-        slider.get(i)
 
 
 def selection_screen():
