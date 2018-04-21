@@ -20,8 +20,6 @@ history = False
 language = False
 other = False
 
-print math
-
 def questions():
     global word_count
     global term_list
@@ -73,7 +71,6 @@ def done_command():
     global schedule_canvas
     global master_4
     master_4 = Tk()
-    print math
     hour = input('Enter the hour you want to start:')
     if (0 >= hour) or (hour > 12) or (type(hour) != int):
         print('Invalid input. Try again.')
@@ -89,6 +86,7 @@ def done_command():
             print (str(hour) + ':' + str(minute))
     schedule_canvas = Canvas(master_4, width=800, height=800, bg='white')
     schedule_canvas.pack()
+    create_schedule()
 
 
 def flash_sequence():
@@ -187,12 +185,57 @@ def button_creator_subject(subject_list):
 
 def slider_creator_time():
     height = 0
-    global slider_button
-    for i in range(0,6):
-        height = height + 110
-        slider_button = Scale(master_3,from_=0, to=120, length = 360, tickinterval = 10, font=('Bodoni', 10, 'bold'), orient = HORIZONTAL)
-        slider_button.pack()
-        slider_button.place(x=425, y=height)
+    global slider_button_math
+    global slider_button_Language_arts
+    global slider_button_science
+    global slider_button_history
+    global slider_button_language
+    global slider_button_other
+
+    height = height + 110
+    slider_button_math = Scale(master_3,from_=0, to=120, length = 360, tickinterval = 10, font=('Bodoni', 10, 'bold'), orient = HORIZONTAL)
+    slider_button_math.pack()
+    slider_button_math.place(x=425, y=height)
+
+    height = height + 110
+    slider_button_Language_arts = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_Language_arts.pack()
+    slider_button_Language_arts.place(x=425, y=height)
+
+    height = height + 110
+    slider_button_science = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_science.pack()
+    slider_button_science.place(x=425, y=height)
+
+    height = height + 110
+    slider_button_history = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_history.pack()
+    slider_button_history.place(x=425, y=height)
+
+    height = height + 110
+    slider_button_language = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_language.pack()
+    slider_button_language.place(x=425, y=height)
+
+    height = height + 110
+    slider_button_other = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_other.pack()
+    slider_button_other.place(x=425, y=height)
+
+def create_schedule():
+    if math == True:
+        print('You have ' + str(slider_button_math.get()) + ' minutes of Math.')
+    if la == True:
+        print('You have ' + str(slider_button_Language_arts.get()) + ' minutes of Language Arts.')
+    if science == True:
+        print('You have ' + str(slider_button_science.get()) + ' minutes of Science.')
+    if history == True:
+        print('You have ' + str(slider_button_history.get()) + ' minutes of History.')
+    if language == True:
+        print('You have ' + str(slider_button_language.get()) + ' minutes of Language.')
+    if other == True:
+        print('You have ' + str(slider_button_other.get()) + ' minutes of Somthing else.')
+
 
 
 def selection_screen():
