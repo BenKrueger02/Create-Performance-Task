@@ -87,6 +87,8 @@ def done_command():
     schedule_canvas = Canvas(master_4, width=800, height=800, bg='white')
     schedule_canvas.pack()
     create_schedule()
+    create_planner(subjects_with_hw)
+
 
 
 def flash_sequence():
@@ -136,32 +138,6 @@ def flash_title():
     Title_flash = Label(master_2, text='Flash Time', font=('Bodoni', 50, 'bold'), fg='blue', bg='white')
     Title_flash.pack()
     Title_flash.place(x=275, y=100)
-
-def call_math():
-    global math
-    math = True
-
-def call_la():
-    global la
-    la = True
-
-def call_science():
-    global science
-    science = True
-
-def call_history():
-    global history
-    history = True
-
-def call_language():
-    global language
-    language = True
-
-def call_other():
-    global other
-    other = True
-
-
 
 def planner_title():
     Title_planner = Label(master_3, text='How much time will\n you spend on each subject?', font=('Bodoni', 35, 'bold'), fg='black', bg='white')
@@ -223,32 +199,58 @@ def slider_creator_time():
     slider_button_other.place(x=425, y=height)
 
 def create_schedule():
+    global subjects_with_hw
+    global time_for_subjects
+    subjects_with_hw = []
+    time_for_subjects = []
     if slider_button_math.get() > 0:
         print('You have ' + str(slider_button_math.get()) + ' minutes of Math.')
+        subjects_with_hw.append('Math')
+        time_for_subjects.append(slider_button_math.get())
     if slider_button_Language_arts.get() > 0:
         print('You have ' + str(slider_button_Language_arts.get()) + ' minutes of Language Arts.')
+        subjects_with_hw.append('Language Arts')
+        time_for_subjects.append(slider_button_Language_arts.get())
     if slider_button_science.get() > 0:
         print('You have ' + str(slider_button_science.get()) + ' minutes of Science.')
+        subjects_with_hw.append('Science')
+        time_for_subjects.append(slider_button_science.get())
     if slider_button_history.get() > 0:
         print('You have ' + str(slider_button_history.get()) + ' minutes of History.')
+        subjects_with_hw.append('History')
+        time_for_subjects.append(slider_button_history.get())
     if slider_button_language.get() > 0:
         print('You have ' + str(slider_button_language.get()) + ' minutes of Language.')
+        subjects_with_hw.append('Language')
+        time_for_subjects.append(slider_button_language.get())
     if slider_button_other.get() > 0:
         print('You have ' + str(slider_button_other.get()) + ' minutes of Somthing else.')
+        subjects_with_hw.append('Other')
+        time_for_subjects.append(slider_button_other.get())
 
+    print(subjects_with_hw)
+    print(time_for_subjects)
 
 
 def selection_screen():
     global subject_list
     global call_back_list
     subject_list = ['Math','Language Arts', 'Science', 'History', 'Language','Other']
-    call_back_list = {'Math':call_math, 'Language Arts':call_la, 'Science':call_science, 'History':call_history, 'Language':call_language,'Other':call_other}
     label_creator_subject(subject_list)
     slider_creator_time()
     planner_title()
     done_button()
 
-
+def create_planner(subjects_with_hw):
+    planner_label = Label(master_4, text='Schedule', font=('Bodoni', 60, 'bold'), fg='black', bg='white')
+    planner_label.pack()
+    planner_label.place(x=255, y = 10)
+    height = 0
+    for x in subjects_with_hw:
+        height = height + 110
+        schedule_label = Label(master_4, text=x, font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        schedule_label.pack()
+        schedule_label.place(x=15, y=height)
 
 
 def call_planner():
