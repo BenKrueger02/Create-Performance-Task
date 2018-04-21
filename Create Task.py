@@ -174,14 +174,14 @@ def done_button():
     done_button.place(x=362.5, y=750)
 
 
-def button_creator_subject(subject_list):
+def label_creator_subject(subject_list):
      height = 0
-     global subject_button
+     global subject_label
      for i in subject_list:
          height = height + 110
-         subject_button = Button(master_3, text=i, font=('Bodoni', 25, 'bold'), command = call_back_list[i] )
-         subject_button.pack()
-         subject_button.place(x=15, y=height)
+         subject_label = Label(master_3, text=i, font=('Bodoni', 25, 'bold'), fg = 'black', bg = 'white')
+         subject_label.pack()
+         subject_label.place(x=15, y=height)
 
 def slider_creator_time():
     height = 0
@@ -223,17 +223,17 @@ def slider_creator_time():
     slider_button_other.place(x=425, y=height)
 
 def create_schedule():
-    if math == True:
+    if slider_button_math.get() > 0:
         print('You have ' + str(slider_button_math.get()) + ' minutes of Math.')
-    if la == True:
+    if slider_button_Language_arts.get() > 0:
         print('You have ' + str(slider_button_Language_arts.get()) + ' minutes of Language Arts.')
-    if science == True:
+    if slider_button_science.get() > 0:
         print('You have ' + str(slider_button_science.get()) + ' minutes of Science.')
-    if history == True:
+    if slider_button_history.get() > 0:
         print('You have ' + str(slider_button_history.get()) + ' minutes of History.')
-    if language == True:
+    if slider_button_language.get() > 0:
         print('You have ' + str(slider_button_language.get()) + ' minutes of Language.')
-    if other == True:
+    if slider_button_other.get() > 0:
         print('You have ' + str(slider_button_other.get()) + ' minutes of Somthing else.')
 
 
@@ -243,7 +243,7 @@ def selection_screen():
     global call_back_list
     subject_list = ['Math','Language Arts', 'Science', 'History', 'Language','Other']
     call_back_list = {'Math':call_math, 'Language Arts':call_la, 'Science':call_science, 'History':call_history, 'Language':call_language,'Other':call_other}
-    button_creator_subject(subject_list)
+    label_creator_subject(subject_list)
     slider_creator_time()
     planner_title()
     done_button()
