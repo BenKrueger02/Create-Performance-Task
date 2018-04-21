@@ -13,6 +13,14 @@ global next_button
 next_button = True
 
 
+math = False
+la = False
+science = False
+history = False
+language = False
+other = False
+
+print math
 
 def questions():
     global word_count
@@ -65,6 +73,7 @@ def done_command():
     global schedule_canvas
     global master_4
     master_4 = Tk()
+    print math
     hour = input('Enter the hour you want to start:')
     if (0 >= hour) or (hour > 12) or (type(hour) != int):
         print('Invalid input. Try again.')
@@ -130,9 +139,29 @@ def flash_title():
     Title_flash.pack()
     Title_flash.place(x=275, y=100)
 
+def call_math():
+    global math
+    math = True
 
+def call_la():
+    global la
+    la = True
 
+def call_science():
+    global science
+    science = True
 
+def call_history():
+    global history
+    history = True
+
+def call_language():
+    global language
+    language = True
+
+def call_other():
+    global other
+    other = True
 
 
 
@@ -152,7 +181,7 @@ def button_creator_subject(subject_list):
      global subject_button
      for i in subject_list:
          height = height + 110
-         subject_button = Button(master_3, text=i, font=('Bodoni', 25, 'bold') )
+         subject_button = Button(master_3, text=i, font=('Bodoni', 25, 'bold'), command = call_back_list[i] )
          subject_button.pack()
          subject_button.place(x=15, y=height)
 
@@ -168,7 +197,9 @@ def slider_creator_time():
 
 def selection_screen():
     global subject_list
+    global call_back_list
     subject_list = ['Math','Language Arts', 'Science', 'History', 'Language','Other']
+    call_back_list = {'Math':call_math, 'Language Arts':call_la, 'Science':call_science, 'History':call_history, 'Language':call_language,'Other':call_other}
     button_creator_subject(subject_list)
     slider_creator_time()
     planner_title()
