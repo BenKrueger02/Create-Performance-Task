@@ -55,8 +55,6 @@ def flip_command():
     if next_button == True:
         next_button = False
         Word.destroy()
-
-
         flash_title()
         flash_sequence()
     else:
@@ -88,6 +86,7 @@ def done_command():
     schedule_canvas.pack()
     create_schedule()
     create_planner(subjects_with_hw)
+    clock_time(time_for_subjects)
 
 
 
@@ -230,6 +229,63 @@ def create_schedule():
 
     print(subjects_with_hw)
     print(time_for_subjects)
+
+def clock_time(time_for_subjects):
+    global time
+    global time_label
+    global time_hour
+    global time_minute
+    global time_clock_label
+    global hour1
+    global minute1
+    global hour2
+    global minute2
+    global minute_string
+    global minute_string_two
+    height = 0
+    minute_string = ''
+    minute_string_two = ''
+    time_clock_label = Label(master_4, text=(str(hour) + ' : ' + str(minute)), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+    time_clock_label.pack()
+    time_clock_label.place(x=550, y=110)
+
+    # time_hour = time_for_subjects[0] / 60
+    # time_minute = time_for_subjects[0] % 60
+    # hour1 = hour + time_hour
+    # minute1 = minute + time_minute
+    # if minute1 >= 60:
+    #     hour1 = hour1 + 1
+    #     minute1 = minute1 - 60
+    # if minute1 < 10:
+    #     minute_string = str('0' + str(minute1))
+    #     print(str(hour1) + ':' + minute_string)
+    # print(str(hour1) + ':'+str(minute1))
+
+    for j in range(0, len(time_for_subjects)):
+        hour2= time_for_subjects[j]/60
+        print('the value of hour is ' + str(hour2))
+        minute2 = time_for_subjects[j] %60
+        print('the value of minute is ' + str(minute2))
+        hour2 = hour1+hour2
+        minute2 = minute2+minute1
+        if minute2 >= 60:
+            hour2=hour2+1
+            minute2 = minute2-60
+        if minute2 < 10:
+            minute_string_two = ('0' + str(minute2))
+            print(str(hour2) + ':' + minute_string_two)
+        print(str(hour2) + ':' + str(minute2))
+        hour1 = hour2
+        minute1 = minute2
+
+
+    for i in range(0,len(time_for_subjects)):
+        height = height +110
+        time = time_for_subjects[i]
+        time_label = Label(master_4, text=(str(time) + ' minutes'), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        time_label.pack()
+        time_label.place(x=350, y=height)
+
 
 
 def selection_screen():
