@@ -1,8 +1,8 @@
 from Tkinter import *
-import time
+
 master = Tk()
 
-title_screen = Canvas(master, width=800, height=800, bg='green')
+title_screen = Canvas(master, width=800, height=800, bg='#6960EC')
 title_screen.pack()
 
 global x
@@ -11,6 +11,7 @@ x = 0
 
 global next_button
 next_button = True
+
 
 
 math = False
@@ -113,7 +114,7 @@ next_true = False
 
 def flash_buttons():
     global master_2
-    next_button = Button(master_2, text="next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
+    next_button = Button(master_2, text="Next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
     next_button.pack()
     next_button.place(x=710, y=750)
     flip_button = Button(master_2, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command = flip_command)
@@ -168,32 +169,32 @@ def slider_creator_time():
     global slider_button_other
 
     height = height + 110
-    slider_button_math = Scale(master_3,from_=0, to=120, length = 360, tickinterval = 10, font=('Bodoni', 10, 'bold'), orient = HORIZONTAL)
+    slider_button_math = Scale(master_3,from_=0, to=110, length = 360, tickinterval = 10, font=('Bodoni', 10, 'bold'), orient = HORIZONTAL)
     slider_button_math.pack()
     slider_button_math.place(x=425, y=height)
 
     height = height + 110
-    slider_button_Language_arts = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_Language_arts = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_Language_arts.pack()
     slider_button_Language_arts.place(x=425, y=height)
 
     height = height + 110
-    slider_button_science = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_science = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_science.pack()
     slider_button_science.place(x=425, y=height)
 
     height = height + 110
-    slider_button_history = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_history = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_history.pack()
     slider_button_history.place(x=425, y=height)
 
     height = height + 110
-    slider_button_language = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_language = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_language.pack()
     slider_button_language.place(x=425, y=height)
 
     height = height + 110
-    slider_button_other = Scale(master_3, from_=0, to=120, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_other = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_other.pack()
     slider_button_other.place(x=425, y=height)
 
@@ -236,22 +237,82 @@ def clock_time(time_for_subjects):
     global time_hour
     global time_minute
     global time_clock_label
+    global time_clock_label_1
+    global time_clock_label_2
+    global hour1
+    global minute1
+    global hour2
+    global minute2
+    global minute_string
+    global minute_string_two
+    global height
+    global minute_string_zero
+    height = 110
+    minute_string = ''
+    minute_string_two = ''
+    if minute < 10:
+        minute_string_zero = str('0' + str(minute))
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour) + ':' + str(minute_string_zero)), font=('Bodoni', 25, 'bold'), fg='black',bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=110)
+    else:
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour) + ':' + str(minute)),font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=110)
+    time_hour = time_for_subjects[0] / 60
+    time_minute = time_for_subjects[0] % 60
+    hour1 = hour + time_hour
+    minute1 = minute + time_minute
+    if minute1 >= 60:
+        hour1 = hour1 + 1
+        minute1 = minute1 - 60
+    if minute1 < 10:
+        minute_string = str('0' + str(minute1))
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour1) + ':' + str(minute_string)), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=220)
+    else:
+        print(str(hour1) + ':'+str(minute1)+' minute1')
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour1) + ':'+str(minute1)), font=('Bodoni', 25, 'bold'), fg='black',bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=220)
+
+    height=330
+    for j in range(1, len(time_for_subjects)-1):
+
+        hour2= time_for_subjects[j]/60
+        minute2 = time_for_subjects[j] %60
+        print('Hour one is ' + str(hour1))
+        print('Hour two is ' + str(hour2))
+        hour2 = hour1+hour2
+        minute2 = minute2+minute1
+        if minute2 >= 60:
+            hour2=hour2+1
+            minute2 = minute2-60
+        if minute2 < 10:
+            minute_string_two = ('0' + str(minute2))
+            print(str(hour2) + ':' + minute_string_two+ ' minute string 2')
+            print(str(hour2) + ':' + str(minute2) + ' minute 2')
+            time_clock_label = Label(master_4, text=('Start at: ' + str(hour2) + ':' + str(minute_string_two)),font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+            time_clock_label.pack()
+            time_clock_label.place(x=550, y=height)
+        else:
+            print(str(hour2) + ':' + str(minute2)+ ' minute 2')
+            time_clock_label = Label(master_4, text=('Start at: ' + str(hour2) + ':' + str(minute2)), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+            time_clock_label.pack()
+            time_clock_label.place(x=550, y=height)
+            hour1 = hour2
+            minute1 = minute2
+            height = height+110
+
     height = 0
-    time_clock_label = Label(master_4, text=hour + minute, font=('Bodoni', 25, 'bold'), fg='black', bg='white')
-    time_clock_label.pack()
-    time_clock_label.place(x=400, y=110)
-
-  #  for x in range(0, len(time_for_subjects)):
-   #     time_hour = time_for_subjects[x]/60
-    #    time_minute = time_for_subjects[x]%60
-
-
     for i in range(0,len(time_for_subjects)):
         height = height +110
         time = time_for_subjects[i]
         time_label = Label(master_4, text=(str(time) + ' minutes'), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
         time_label.pack()
         time_label.place(x=350, y=height)
+
 
 
 def selection_screen():
@@ -285,21 +346,24 @@ def call_planner():
     selection_screen()
 
 
-Title_main = Label(master, text='Homework Planner', font = ('Bodoni', 60, 'bold'), fg='blue', bg='green')
+Title_main = Label(master, text='Homework Planner', font = ('Bodoni', 60, 'bold'), fg='#5CB3FF', bg='#6960EC')
 Title_main.pack()
-Title_main.place(x=255, y=100)
+Title_main.place(x=150, y=100)
 
 
-flashcard_button = Button(master, text="Flashcards", font = ('Bodoni', 25, 'bold'), fg='black', bg='green', command=call_flashcards)
+flashcard_button = Button(master, text="Flashcards", font = ('Bodoni', 25, 'bold'), fg='black', bg='#6960EC', command=call_flashcards)
 flashcard_button.pack()
 flashcard_button.place(x=320, y=300)
 
-planner_button = Button(master, text="Planner", font = ('Bodoni', 25, 'bold'   ), fg='black', bg='green', command = call_planner)
+planner_button = Button(master, text="Planner", font = ('Bodoni', 25, 'bold'   ), fg='black', bg='#6960EC', command = call_planner)
 planner_button.pack()
 planner_button.place(x=340, y=400)
 
 
 
+Coders_label = Label(master, text='By: \n Ben Krueger and \n Aidan MacDonell', font = ('Bodoni', 35, 'bold'), fg='#5CB3FF', bg='#6960EC')
+Coders_label.pack()
+Coders_label.place(x=250, y=500)
 
 
 
