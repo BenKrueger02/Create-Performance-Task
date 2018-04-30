@@ -2,7 +2,7 @@ from Tkinter import *
 
 master = Tk()
 
-title_screen = Canvas(master, width=800, height=800, bg='green')
+title_screen = Canvas(master, width=800, height=800, bg='#6960EC')
 title_screen.pack()
 
 global x
@@ -21,21 +21,114 @@ history = False
 language = False
 other = False
 
-def questions():
+
+def Finished_command():
+    call_flashcards()
+    flash_title()
+    flash_sequence()
+
+b=0
+
+def return_word(hello):
+    global word_input
+    global def_input
+    global definition
+    global Flash_num
+    global b
+    b=b+1
+    if len(term_list) ==0:
+        flash_num_label_term = Label(master_flash_input, text='You have 1 flashcard', font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        flash_num_label_term.pack()
+        flash_num_label_term.place(x=300, y=500)
+    else:
+        flash_num_label_term = Label(master_flash_input, text='You have ' + (str(len(term_list)+1)) + ' flashcards', font=('Bodoni', 25, 'bold'), fg='black',bg='white')
+        flash_num_label_term.pack()
+        flash_num_label_term.place(x=300, y=500)
+    word_input = word.get()
+    def_input = definition.get()
+    word.delete(0, 'end')
+    definition.delete(0, 'end')
+    term_list.append(word_input)
+    definition_list.append(def_input)
+    print('hello')
+    print(term_list)
+    print(definition_list)
+    Flash_num = word_count
+
+
+
+def OK_command():
     global word_count
     global term_list
     global definition_list
-    word_count = input('How many flashcards would you like to make?')
+    global word_input
+    global word
+    global definition
+    global def_input
+
+    word_count = flash_num_slider.get()
+    print(word_count)
     term_list = []
     definition_list = []
-    for x in range(0,word_count):
-        word=input('What is the word you would like?')
-        definition=input('What is the definition of the word you chose?')
-        term_list.append(word)
-        definition_list.append(definition)
-    print('Return back to the other window.')
-    print(term_list)
-    print(definition_list)
+
+    for x in range(0, word_count):
+        word_input = ''
+        def_input = ''
+        word = Entry(master_flash_input)
+        word.pack()
+        word.place(x=325, y=300)
+
+
+        definition = Entry(master_flash_input)
+        definition.pack()
+        definition.place(x=325, y=400)
+        definition.bind('<Return>', return_word)
+
+
+        instruction_label_enter = Label(master_flash_input, text="Enter the term, then the definiton, then click enter.\n Once you have entered all your flashcards\n click finished.",font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        instruction_label_enter.pack()
+        instruction_label_enter.place(x=100, y=50)
+
+        instruction_label_term = Label(master_flash_input,text="Term:",font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        instruction_label_term.pack()
+        instruction_label_term.place(x=250, y=295)
+
+        instruction_label_definition = Label(master_flash_input, text="Defintion:", font=('Bodoni', 25, 'bold'), fg='black',bg='white')
+        instruction_label_definition.pack()
+        instruction_label_definition.place(x=200, y=395)
+
+        OK_button.destroy()
+        flash_num_slider.destroy()
+        instruction_label.destroy()
+
+    Finished_button = Button(master_flash_input, text="Finished", font=('Bodoni', 25, 'bold'), fg='black', bg='White',command=Finished_command)
+    Finished_button.pack()
+    Finished_button.place(x=350, y=750)
+
+
+
+def create_flashcards():
+    global master_flash_input
+    global flashcard_input
+    global flash_num_slider
+    global OK_button
+    global instruction_label
+    master_flash_input = Tk()
+    flashcard_input = Canvas(master_flash_input, width=800, height=800, bg='white')
+    flashcard_input.pack()
+    instruction_label = Label(master_flash_input, text="Enter the amount of flashcards\n you wish to make!",font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+    instruction_label.pack()
+    instruction_label.place(x=250, y=50)
+    flash_num_slider = 0
+    flash_num_slider = Scale(master_flash_input, from_=0, to=50, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    flash_num_slider.pack()
+    flash_num_slider.place(x=250, y=150)
+    OK_button = Button(master_flash_input, text="OK", font=('Bodoni', 25, 'bold'), fg='black', bg='White',command=OK_command)
+    OK_button.pack()
+    OK_button.place(x=400, y=750)
+
+
+
 
 
 def next_command():
@@ -70,6 +163,7 @@ def done_command():
     global schedule_canvas
     global master_4
     master_4 = Tk()
+    
     hour = input('Enter the hour you want to start:')
     if (0 >= hour) or (hour > 12) or (type(hour) != int):
         print('Invalid input. Try again.')
@@ -114,7 +208,7 @@ next_true = False
 
 def flash_buttons():
     global master_2
-    next_button = Button(master_2, text="next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
+    next_button = Button(master_2, text="Next", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command= next_command)
     next_button.pack()
     next_button.place(x=710, y=750)
     flip_button = Button(master_2, text="Flip", font=('Bodoni', 25, 'bold'), fg='black', bg='White', command = flip_command)
@@ -129,9 +223,8 @@ def call_flashcards():
     master_2 = Tk()
     flashcard_canvas = Canvas(master_2, width=800, height=800, bg='white')
     flashcard_canvas.pack()
-    questions()
-    flash_title()
-    flash_sequence()
+
+
 
 
 def flash_title():
@@ -169,32 +262,32 @@ def slider_creator_time():
     global slider_button_other
 
     height = height + 110
-    slider_button_math = Scale(master_3,from_=0, to=119, length = 360, tickinterval = 10, font=('Bodoni', 10, 'bold'), orient = HORIZONTAL)
+    slider_button_math = Scale(master_3,from_=0, to=110, length = 360, tickinterval = 10, font=('Bodoni', 10, 'bold'), orient = HORIZONTAL)
     slider_button_math.pack()
     slider_button_math.place(x=425, y=height)
 
     height = height + 110
-    slider_button_Language_arts = Scale(master_3, from_=0, to=119, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_Language_arts = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_Language_arts.pack()
     slider_button_Language_arts.place(x=425, y=height)
 
     height = height + 110
-    slider_button_science = Scale(master_3, from_=0, to=119, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_science = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_science.pack()
     slider_button_science.place(x=425, y=height)
 
     height = height + 110
-    slider_button_history = Scale(master_3, from_=0, to=119, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_history = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_history.pack()
     slider_button_history.place(x=425, y=height)
 
     height = height + 110
-    slider_button_language = Scale(master_3, from_=0, to=119, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_language = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_language.pack()
     slider_button_language.place(x=425, y=height)
 
     height = height + 110
-    slider_button_other = Scale(master_3, from_=0, to=119, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
+    slider_button_other = Scale(master_3, from_=0, to=110, length=360, tickinterval=10, font=('Bodoni', 10, 'bold'), orient=HORIZONTAL)
     slider_button_other.pack()
     slider_button_other.place(x=425, y=height)
 
@@ -246,13 +339,19 @@ def clock_time(time_for_subjects):
     global minute_string
     global minute_string_two
     global height
+    global minute_string_zero
     height = 110
     minute_string = ''
     minute_string_two = ''
-    time_clock_label = Label(master_4, text=('Start at: ' + str(hour) + ':' + str(minute)), font=('Bodoni', 25, 'bold'), fg='black',bg='white')
-    time_clock_label.pack()
-    time_clock_label.place(x=550, y=110)
-
+    if minute < 10:
+        minute_string_zero = str('0' + str(minute))
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour) + ':' + str(minute_string_zero)), font=('Bodoni', 25, 'bold'), fg='black',bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=110)
+    else:
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour) + ':' + str(minute)),font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=110)
     time_hour = time_for_subjects[0] / 60
     time_minute = time_for_subjects[0] % 60
     hour1 = hour + time_hour
@@ -262,10 +361,14 @@ def clock_time(time_for_subjects):
         minute1 = minute1 - 60
     if minute1 < 10:
         minute_string = str('0' + str(minute1))
-    print(str(hour1) + ':'+str(minute1)+' minute1')
-    time_clock_label = Label(master_4, text=('Start at: ' + str(hour1) + ':'+str(minute1)), font=('Bodoni', 25, 'bold'), fg='black',bg='white')
-    time_clock_label.pack()
-    time_clock_label.place(x=550, y=220)
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour1) + ':' + str(minute_string)), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=220)
+    else:
+        print(str(hour1) + ':'+str(minute1)+' minute1')
+        time_clock_label = Label(master_4, text=('Start at: ' + str(hour1) + ':'+str(minute1)), font=('Bodoni', 25, 'bold'), fg='black',bg='white')
+        time_clock_label.pack()
+        time_clock_label.place(x=550, y=220)
 
     height=330
     for j in range(1, len(time_for_subjects)-1):
@@ -280,16 +383,20 @@ def clock_time(time_for_subjects):
             hour2=hour2+1
             minute2 = minute2-60
         if minute2 < 10:
-            minute_string_one = ('0' + str(minute2))
+            minute_string_two = ('0' + str(minute2))
             print(str(hour2) + ':' + minute_string_two+ ' minute string 2')
-        print(str(hour2) + ':' + str(minute2)+ ' minute 2')
-        time_clock_label = Label(master_4, text=('Start at: ' + str(hour2) + ':' + str(minute2)), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
-        time_clock_label.pack()
-        time_clock_label.place(x=550, y=height)
-        #minute2 = time_for_subjects[j]%60
-        hour1 = hour2
-        minute1 = minute2
-        height = height+110
+            print(str(hour2) + ':' + str(minute2) + ' minute 2')
+            time_clock_label = Label(master_4, text=('Start at: ' + str(hour2) + ':' + str(minute_string_two)),font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+            time_clock_label.pack()
+            time_clock_label.place(x=550, y=height)
+        else:
+            print(str(hour2) + ':' + str(minute2)+ ' minute 2')
+            time_clock_label = Label(master_4, text=('Start at: ' + str(hour2) + ':' + str(minute2)), font=('Bodoni', 25, 'bold'), fg='black', bg='white')
+            time_clock_label.pack()
+            time_clock_label.place(x=550, y=height)
+            hour1 = hour2
+            minute1 = minute2
+            height = height+110
 
     height = 0
     for i in range(0,len(time_for_subjects)):
@@ -332,21 +439,24 @@ def call_planner():
     selection_screen()
 
 
-Title_main = Label(master, text='Homework Planner', font = ('Bodoni', 60, 'bold'), fg='blue', bg='green')
+Title_main = Label(master, text='Homework Planner', font = ('Bodoni', 60, 'bold'), fg='#5CB3FF', bg='#6960EC')
 Title_main.pack()
-Title_main.place(x=255, y=100)
+Title_main.place(x=150, y=100)
 
 
-flashcard_button = Button(master, text="Flashcards", font = ('Bodoni', 25, 'bold'), fg='black', bg='green', command=call_flashcards)
+flashcard_button = Button(master, text="Flashcards", font = ('Bodoni', 25, 'bold'), fg='black', bg='#6960EC', command=create_flashcards)
 flashcard_button.pack()
 flashcard_button.place(x=320, y=300)
 
-planner_button = Button(master, text="Planner", font = ('Bodoni', 25, 'bold'   ), fg='black', bg='green', command = call_planner)
+planner_button = Button(master, text="Planner", font = ('Bodoni', 25, 'bold'   ), fg='black', bg='#6960EC', command = call_planner)
 planner_button.pack()
 planner_button.place(x=340, y=400)
 
 
 
+Coders_label = Label(master, text='By: \n Ben Krueger and \n Aidan MacDonell', font = ('Bodoni', 35, 'bold'), fg='#5CB3FF', bg='#6960EC')
+Coders_label.pack()
+Coders_label.place(x=250, y=500)
 
 
 
